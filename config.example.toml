@@ -1,0 +1,11 @@
+[date]
+range = "14d"
+mode = "incremental"  # save last run date; next fetch starts from there
+
+[[account]]
+type = "viseca"
+id = "123456XXYYZZ7890"
+
+[[account]]
+type = "bcge"
+id = "<account ID>"

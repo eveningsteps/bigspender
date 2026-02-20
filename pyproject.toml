@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bigspender"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "arrow>=1.4.0",
+    "browser-cookie3>=0.20.1",
+    "dataclasses-json>=0.6.7",
+    "ipython>=9.10.0",
+    "requests>=2.32.5",
+]
+
+[project.scripts]
+bigspender = "bigspender.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.13"
