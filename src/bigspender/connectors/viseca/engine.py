@@ -57,7 +57,7 @@ class VisecaAccount:
         sep=";",
     ):
         today = dt.date.today().strftime("%Y-%m-%d")
-        out_path = path or f"./out/{today}-transactions-viseca-{card}"
+        out_path = path or f"./out/{today}-transactions-viseca-{card}.csv"
 
         os.makedirs(os.path.dirname(out_path), exist_ok=True)
 
