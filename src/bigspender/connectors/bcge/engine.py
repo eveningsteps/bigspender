@@ -1,4 +1,5 @@
 import datetime as dt
+import json
 import os
 
 import requests
@@ -6,6 +7,16 @@ import requests
 from bigspender.auth import cookies_for_domains
 from bigspender.connectors import Transaction
 from bigspender.connectors.bcge import model
+
+SELECTED_ACCOUNTS_KEY = "dashboard.assetsoverview.selectedaccounts"
+
+
+def _bcge_cookies() -> dict:
+    return cookies_for_domains(
+        ".bcge.ch",
+        "connect.bcge.ch",
+        "www.bcge.ch",
+    )
 
 
 def _flatten_bookingstimegroup_response(data: dict) -> list[model.BCGEBooking]:
@@ -27,14 +38,23 @@ def _flatten_scheduledbookings_response(data: dict) -> list[model.BCGEScheduledB
 
 
 class BCGEAccount:
+    def discover_accounts(self) -> list[str]:
+        cookies = _bcge_cookies()
+
+        url = "https://www.bcge.ch/next/api/v4/contract"
+        response = requests.get(url, cookies=cookies)
+        response.raise_for_status()
+
+        contract = model.BCGEContractResponse.from_dict(response.json())
+        for setting in contract.data.contractSettings:
+            if setting.key == SELECTED_ACCOUNTS_KEY:
+                return json.loads(setting.value)
+        return []
+
     def fetch(
         self, accountId: str, dateFrom: dt.date, dateTo: dt.date
     ) -> list[Transaction]:
-        cookies = cookies_for_domains(
-            ".bcge.ch",
-            "connect.bcge.ch",
-            "www.bcge.ch",
-        )
+        cookies = _bcge_cookies()
 
         url = f"https://www.bcge.ch/next/api/v4/accounts/{accountId}/bookingstimegroup"
         response = requests.get(

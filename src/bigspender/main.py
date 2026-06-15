@@ -54,17 +54,20 @@ def main():
     accounts = config.get("account", [])
 
     for acc in accounts:
-        acc_id = acc["id"]
-
         match acc["type"]:
             case "viseca":
                 connector = VisecaAccount()
+                acc_ids = [acc["id"]]
             case "bcge":
                 connector = BCGEAccount()
+                acc_ids = connector.discover_accounts()
+                print(f"Discovered {len(acc_ids)} BCGE account(s) from the API")
             case unknown:
                 raise ValueError(f"Unknown account type: {unknown!r}")
-        transactions = connector.fetch(acc_id, dateFrom=date_from, dateTo=date_to)
-        connector.dump(acc_id, transactions)
+
+        for acc_id in acc_ids:
+            transactions = connector.fetch(acc_id, dateFrom=date_from, dateTo=date_to)
+            connector.dump(acc_id, transactions)
 
     if incremental:
         save_last_run(date_to)

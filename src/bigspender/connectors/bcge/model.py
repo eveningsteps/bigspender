@@ -137,3 +137,23 @@ class BCGEScheduledBooking:
 @dataclass
 class BCGEScheduledBookingsResponse:
     data: list[BCGEScheduledBooking]
+
+
+@dataclass_json
+@dataclass
+class BCGEContractSetting:
+    key: str
+    value: str
+    isSigned: bool
+
+
+@dataclass_json
+@dataclass
+class BCGEContractData:
+    contractSettings: list[BCGEContractSetting]
+
+
+@dataclass_json
+@dataclass
+class BCGEContractResponse:
+    data: BCGEContractData

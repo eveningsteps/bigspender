@@ -6,6 +6,6 @@ mode = "incremental"  # save last run date; next fetch starts from there
 type = "viseca"
 id = "123456XXYYZZ7890"
 
+# BCGE account IDs are discovered automatically from the API.
 [[account]]
 type = "bcge"
-id = "<account ID>"

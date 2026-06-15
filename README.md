@@ -8,7 +8,7 @@ Fetch bank transactions from BCGE and Viseca One, using browser cookies from you
 ## Usage
 
 1. Create your own `config.toml`, based on the existing example.
-2. Log into your accounts through the browser and copy account IDs. Keep in mind that the cookies are valid only for a few minutes.
+2. Log into your accounts through the browser and copy the Viseca card numbers. BCGE account IDs are discovered automatically from the API. Keep in mind that the cookies are valid only for a few minutes.
 3. Set up and run the script:
 
 ```
@@ -22,5 +22,5 @@ uv run bigspender
 
 | Provider | Account ID |
 | :-- | :-- |
-| [BCGE](https://www.bcge.ch/en/home) | Long hash string from HTML (`{ "accountId": "31d3...4094" }`). Changes on every login. |
+| [BCGE](https://www.bcge.ch/en/home) | Discovered automatically from the contract API (`/next/api/v4/contract`), changes on every login. |
 | [Viseca One](https://one.viseca.ch) | Obscured card no. (example: `123456ABCDEF7890`). Constant. |
